@@ -10,6 +10,7 @@ var $humburger = $('.js-hamburger');
 $humburger.on('click', function() {
   $(this).toggleClass('is-active');
   $('.nav').toggleClass('open');
+  $('.page').toggleClass('open');
   $('body').toggleClass('locked');
 	// $mobileContent.toggleClass('mobile-content_overflow');
 	// $('body').toggleClass('body-overflow');
