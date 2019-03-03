@@ -1,5 +1,20 @@
 "use strict"
 
+$(document).ready(function () {
+
+  
+//Humburger
+var $humburger = $('.js-hamburger');
+// var $mobileContent = $('.mobile-content');
+
+$humburger.on('click', function() {
+  $(this).toggleClass('is-active');
+  $('.nav').toggleClass('open');
+  $('body').toggleClass('locked');
+	// $mobileContent.toggleClass('mobile-content_overflow');
+	// $('body').toggleClass('body-overflow');
+});
+
 
 //https://isotope.metafizzy.co/filtering.html
 //Isotope filter
@@ -41,9 +56,24 @@ http://css3.bradshawenterprises.com/flip/
 https://github.com/VincentGarreau/particles.js/
 http://www.coolwebmasters.com/education-and-learning/1523-css3-progress-bars.html
 
-
+http://exauto.ua/ru map code
 
 //Описание портфолио
+http://samasajt.blogspot.com/2017/03/kak-sozdat-gadget-iz-google-formy.html
+http://tilda.education/articles-navigation
+
+// скрол навигации
+https://github.com/trungk18/Change-Navigation-Active-Class-on-Page-Scroll
+http://codetheory.in/change-active-state-links-sticky-navigation-scroll/
+
+https://ru.stackoverflow.com/questions/653774/%D0%BA%D0%B0%D0%BA-%D0%B4%D0%BE%D0%B1%D0%B0%D0%B2%D0%B8%D1%82%D1%8C-%D1%83%D0%B4%D0%B0%D0%BB%D0%B8%D1%82%D1%8C-%D0%BA%D0%BB%D0%B0%D1%81%D1%81-%D0%BF%D1%80%D0%B8-%D1%81%D0%BA%D1%80%D0%BE%D0%BB%D0%BB%D0%B5-%D0%B2-%D0%BD%D1%83%D0%B6%D0%BD%D0%BE%D0%BC-%D0%BC%D0%B5%D1%81%D1%82%D0%B5
+http://gnatkovsky.com.ua/yakorya-i-plavnyj-perexod-po-yakornym-ssylkam.html
+
+http://denis-creative.com/unikalnaya-forma-obratnoj-svyazi-s-ajax-na-php/
+
+https://www.youtube.com/watch?v=vAgCY6L6n3I
+https://smartlanding.biz/sozdanie-formy-obratnoj-svyazi.html
+
 http://natfolio.ru/portfolio.html
 https://scripteden.com/previews/Clean/
 http://webcode.com.ua/index.html#second
@@ -117,8 +147,17 @@ https://codemyui.com/animated-material-design-button/
 
 
 
+// |Если вы попали на мой сайт, то скорей всего вам нужна html верстка или верстка шаблонов для WordPress, а может вам просто понравился мой сайт.
+
+// Занимаюсь версткой сайтов. Использую новые технологии верстки, такие как HTML5, CSS3, JavaScript, BOOTSTRAP, LESS, SASS, GULP, AJAX. А также предоставляю некоторые дополнительные услуги по веб разработке. Для меня это не просто хобби, а основной заработок и поэтому к работе отношусь серьезно и с большой ответственностью.
+
+// На моем сайте вы найдете всю нужную для вас информацию и можете посмотреть примеры моих работ.
+
+// Чтобы связаться со мной воспользуйтесь формой обратной связи или отправьте письмо на мой почтовый ящик
 
 
+
+//https://aweb.ua/vacancies/html-coder вакансия
 
 
 
@@ -144,10 +183,35 @@ $(window).bind('scroll.once', function() {
 
 function test() {
 
-	$('.progress-bar').each(function(index, element) {
+	// $('.progress-bar').each(function(index, element) {
 
-		var progressBarText = $(element).find('.progress-bar__text');
-		var progressBarTextValue = progressBarText.text();
+	// 	var progressBarText = $(element).find('.progress-bar__text');
+	// 	var progressBarTextValue = progressBarText.text();
+	
+	// 	progressBarText.animate(
+	// 		{
+	// 			width: progressBarTextValue
+	// 		},
+	// 		{
+	// 			duration: 5000,
+	// 			step: function(x) {
+	// 				progressBarText.text(Math.round(x) + "%");
+	// 			},
+	// 			complete: function() {
+	// 				progressBarText.stop(true);
+	// 			}
+	// 		}
+	// 	);
+  // });
+
+  // https://css-tricks.com/almanac/properties/o/outline/
+  // https://medium.com/@frontman/%D1%81%D1%82%D0%B8%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F-%D0%B8-%D0%BA%D0%B0%D1%81%D1%82%D0%BE%D0%BC%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F-file-inputs-dea8e2de3ebc
+  
+  $('.progress-bar').each(function(index, element) {
+
+		var progressBarText = $(element).find('.js-progressBar');
+    var progressBarTextValue = progressBarText.text();
+    var test = progressBarText.attr('data-percent');
 	
 		progressBarText.animate(
 			{
@@ -156,10 +220,7 @@ function test() {
 			{
 				duration: 5000,
 				step: function(x) {
-					progressBarText.text(Math.round(x) + "%");
-				},
-				complete: function() {
-					progressBarText.stop(true);
+          progressBarText.text(Math.round(x) + "%");	
 				}
 			}
 		);
@@ -231,6 +292,138 @@ http://w3.org.ua/jquery/funktsiya-animate-v-jquery/
 
 http://natfolio.ru/portfolio.html
 */
+
+// $(document).ready(function(){
+// });
+
+
+// плавное перемещение страницы к нужному блоку
+// $("nav li a").click(function () {
+//   var currentElement = $(this);
+
+
+//   // if($(this).hasClass('nav__link_active')) {
+//   //   currentElement.removeClass('nav__link_active');
+//   // }
+//   currentElement.addClass('nav__link_active');
+
+
+  
+
+  
+//   var attrCurrentLinkButton = $(this).attr("href");
+//   var destination = $(attrCurrentLinkButton).offset().top;
+//   currentElement.addClass('nav__link_active');
+
+//   nav__link_active
+
+//   $("body, html").animate({scrollTop: destination}, 800);
+// });
+
+
+
+
+
+
+
+// https://codemyui.com/simple-box-shadow-button-hover-animation/
+
+
+
+
+
+
+// http://www.instantshift.com/2014/11/14/jquery-page-scroll-active-menu/
+// https://stanhub.com/sticky-header-change-navigation-active-class-on-page-scroll-with-jquery/
+// https://github.com/trungk18/Change-Navigation-Active-Class-on-Page-Scroll
+
+//Navigation scroll
+var $hashLink = $('a[href^="#"]');
+var $navLink = $('.js-navLink');
+
+$(document).on("scroll", onScroll);
+
+$hashLink.on('click', function() {
+
+  $(document).off("scroll");
+
+  $navLink.each(function () {
+    $(this).removeClass('nav__link_active');
+  })
+  $(this).addClass('nav__link_active');
+
+  var target = this.hash;
+
+  $target = $(target);
+
+  $('html, body').stop().animate({
+    'scrollTop': $target.offset().top+2
+  }, 500, 'swing', function () {
+    window.location.hash = target;
+    $(document).on("scroll", onScroll);
+  });
+});
+
+
+function onScroll() {
+  var scrollPosition = $(document).scrollTop();
+  
+  $navLink.each(function() {
+    var currentLink = $(this);
+    var refElement = $(currentLink.attr("href"));
+
+    if (
+        refElement.position().top <= scrollPosition
+        &&
+        refElement.position().top + refElement.outerHeight() > scrollPosition
+      ) {
+
+      $('nav ul li a').removeClass("nav__link_active");
+      currentLink.addClass("nav__link_active");
+    }
+    else{
+      currentLink.removeClass("nav__link_active");
+    }
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //particlesJS
@@ -717,3 +910,4 @@ particlesJS('particles-js',
 // });
 
 
+});
