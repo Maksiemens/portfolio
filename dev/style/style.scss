@@ -1,128 +1,56 @@
 @import "reset";
 @import "animate";
-@import "animate-custom";
-
 
 //libs
 @import "../libs/slick/slick.css";
 @import "../libs/slick/slick-theme.css";
 
-
-
+//separate files
 @import "fonts";
 @import "variables";
 @import "mixins";
 @import "template-selectors";
-@import "general";
+@import "validate";
 @import "scroll";
 
+@import "animate-custom";
 
 //Start
-
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-body {
+*:focus {
+  outline: none;
+  box-shadow: 0 0 3px 2px lighten($color-2, 15%);
+}
 
+body {
+  &.locked {
+    overflow: hidden;
+  }
 }
 
 .page {
-  // background-color: $color-7;
 }
 
 .container {
   max-width: 1230px;
   min-width: 300px;
   margin: 0 auto;
-  padding: 0 15px; 
+  padding: 0 15px;
 }
-
-.container-secondary {
-  max-width: 1600px;
-  min-width: 300px;
-  margin: 0 auto;
-  // padding: 0 15px; 
-}
-
-
-
-
-// .fullscreen {
-//   position: relative;
-//   height: 100%;
-//   width: 100%;
-//   padding-top:45%;
-//   overflow: hidden;
-//   z-index: -100;
-// }
-
-// .fullscreen__video {
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-// }
-
-// .header-info{
-//   background: rgba(0,0,0,0.6);
-//   position: absolute;
-//   top:0;
-//   left:0;
-//   width: 100%;
-//   height: 100%;
-//   z-index: 5;
-
-//   // display: flex;
-//   // flex-direction: column;
-//   // align-items: center;
-//   // justify-content: center;
-// }
-
-// .video-layer h1 {
-//   text-align:center;
-//   color:#fff;
-//   font-size: 70px;
-//   margin-top:17%;
-// }
-
-
-// .fullscreen {
-//   position: fixed;
-//   // top: 0;
-
-  
-//   // min-width: 100%; 
-//   // overflow: hidden;
-
-//   &__video {
-
-//     width: 100%;
-//     // min-height: 100%;
-//     // padding-bottom: 45%;
-//     // overflow: hidden;
-//   }
-
-
-// }
-
-
-
-
-
 
 .header {
-  position: relative;
-  overflow: hidden;
-  min-height: 100vh;
   background-color: $color-9;
 
   &-info {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 500;
-    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
   }
 
   #particles-js {
@@ -138,29 +66,65 @@ body {
     align-items: center;
 
     &__title {
+      @extend %global_title;
       @include font-primary(60px, $color-1, 700);
-      text-transform: uppercase;
+      text-align: center;
       padding: 15px 0;
       border-top: 2px solid $color-1;
       border-bottom: 2px solid $color-1;
+
+      @include for-tablet-portrait-up {
+        @include font-primary(50px, $color-1, 700);
+      }
     }
   }
 
   .more {
     margin-top: 50px;
 
-    &__button {
-     @extend %reset_button;
-     @include font-primary(18px, $color-1, 700);
-     padding: 15px 35px;
-     border: 2px solid $color-1;
-     text-transform: uppercase;
+    &__link {
+      position: relative;
+      z-index: 500;
+      @extend %link_button;
+      padding: 15px 35px;
+      border: 2px solid $color-1;
+      @include font-primary(18px, $color-1, 700);
+
+      @include for-tablet-portrait-up {
+        @include font-primary(16px, $color-1, 700);
+      }
+
+      &:hover,
+      &:focus {
+        border-radius: 25px;
+        @include font-primary(18px, $color-9, 700);
+
+        @include for-tablet-portrait-up {
+          @include font-primary(16px, $color-9, 700);
+        }
+      }
     }
+  }
+
+  &::after {
+    content: "";
+    display: block;
+    border: solid $color-1;
+    border-width: 0 5px 5px 0;
+    padding: 10px;
+    position: absolute;
+    top: 95%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    animation: scrollDown 1.5s ease-in-out infinite;
   }
 }
 
 .intro {
-  padding: 20px 0;
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  padding: 10px 0;
   background-color: $color-7;
 
   &-info {
@@ -170,10 +134,8 @@ body {
   }
 
   .logo {
-
-
     &__link {
-
+      @extend %link_base;
     }
 
     &__text {
@@ -187,145 +149,176 @@ body {
   }
 
   .nav {
-    width: 100%;
-    max-width: 770px;
-
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     &__list {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
+
+      &.open {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      @include for-tablet-landscape-up {
+        overflow-y: scroll;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 500;
+        opacity: 0;
+        transform-origin: right top;
+        transform: scale(0);
+        transition: all 0.5s ease-in-out;
+        background-color: $color-7;
+        flex-direction: column;
+        justify-content: center;
+      }
     }
 
     &__item {
+      @include for-desktop-up {
+        &:nth-child(4) {
+          display: none;
+        }
+      }
 
+      @include for-tablet-landscape-up {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 15px;
+
+        &:first-child {
+          margin-top: 0;
+        }
+
+        &:nth-child(4) {
+          display: flex;
+        }
+      }
     }
 
     &__link {
-      @include font-primary(16px, $color-1, 700);
+      @extend %link_base;
+      display: block;
+      padding: 5px;
       text-transform: uppercase;
+      @include font-primary(16px, $color-1, 700);
+
+      &_active {
+        @include font-primary(16px, $color-2, 700);
+      }
 
       &:hover {
         @include font-primary(16px, $color-2, 700);
       }
     }
   }
-}
 
+  .hamburger-menu {
+    display: none;
+    position: relative;
+    z-index: 600;
+
+    @include for-tablet-landscape-up {
+      display: block;
+    }
+  }
+}
 
 .specification {
   padding: 100px 0;
 
+  @include for-tablet-landscape-up {
+    padding: 50px 0;
+  }
+
   &-info {
-   
   }
 
   .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(270px, auto));
-    grid-column-gap: 50px;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 270px));
+    grid-column-gap: 40px;
+    grid-row-gap: 40px;
+    justify-content: center;
   }
-  
+
   .card {
-
     &__title {
-      @include font-primary(30px, $color-4, 700);
-      text-transform: uppercase;
-    }
-
-    &__text {
-      margin-top: 50px;
-      @include font-primary(18px, $color-5, 400, 30px);
-    }
-  }
-}
-
-
-.about {
-  background-color: $color-8;
-  position: relative;
-
-  &-info {
-    // position: relative;
-    // display: grid;
-    // grid-template-columns:  50% 1fr;
-    // grid-template-columns: repeat(2, minmax(270px, auto));
-    // grid-template-columns: repeat(auto-fit, minmax(270px, auto));
-
-    // grid-template-columns: auto minmax(auto, 680px);
-    // grid-template-columns: repeat(2, minmax(auto, 680px));
-    // grid-template-columns: 1fr minmax(auto, 680px);
-   
-
-    // grid-template-rows: minmax(auto, 755px);
-    // grid-column-gap: 100px;
-    // justify-items: center;
-    // align-items: center;
-    // justify-content: center;
-    // overflow: hidden;
-   //grid-template-columns: repeat(auto-fit, minmax(270px, auto));
-    // display: grid;
-    // grid-template-columns: repeat(4, minmax(270px, 1fr));
-    // grid-template-rows: repeat(2, minmax(250px, 1fr));
-    // grid-column-gap: 30px;
-    // grid-row-gap: 30px;
-
-    display: flex;
-    // justify-content:
-  }
-
-  .avatar {
-    width: 50%;
-    // position: absolute;
-    // top: 0;
-    // left: 0;
-    // justify-self: end;
-
-
-    &__image {
-      display: block;
-      width: 100%;
-      // max-width: 500px;
-      height: auto;
-    }
-  }
-
-  .description {
-    width: 50%;
-    // justify-self: center;
-    // align-self: center;
-    padding: 50px 0;
-    // max-width: 680px;
-
-
-  }
-
-  .heading {
-
-    &__title {
-      @include font-primary(30px, $color-4, 700);
+      @include font-primary(28px, $color-4, 700);
       text-transform: uppercase;
     }
 
     &__text {
       margin-top: 15px;
-      @include font-primary(18px, $color-5, 400, 30px);
+      @extend %global_text;
+    }
+  }
+}
+
+.about {
+  background-color: $color-8;
+
+  &-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include for-tablet-landscape-up {
+      padding: 50px 0;
+      flex-direction: column;
+    }
+  }
+
+  .avatar {
+    width: 25%;
+
+    &__image {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    @include for-tablet-landscape-up {
+      width: 60%;
+    }
+  }
+
+  .description {
+    width: 65%;
+
+    @include for-tablet-landscape-up {
+      margin-top: 50px;
+      width: 100%;
+    }
+  }
+
+  .heading {
+    &__title {
+      @extend %global_title;
+    }
+
+    &__text {
+      margin-top: 15px;
+      @extend %global_text;
     }
   }
 
   .content {
-    // margin-top: 75px;
   }
 
   .cards {
     margin-top: 50px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, auto));
-    // grid-template-columns: repeat(2, 320px);
-    // grid-template-rows: repeat(2, 1fr);
-    //  grid-template-columns: repeat(auto-fit, minmax(320px, auto));
-
     grid-column-gap: 45px;
-    grid-row-gap: 45px; 
+    grid-row-gap: 45px;
   }
 
   .card {
@@ -334,11 +327,11 @@ body {
     grid-column-gap: 25px;
 
     &::before {
-      content: '';
+      content: "";
       display: block;
       width: 30px;
       height: 40px;
-      background: url('../img/logo_html.svg') no-repeat center center / cover;
+      background: url("../img/logo_html.svg") no-repeat center center / cover;
       justify-self: center;
     }
 
@@ -347,62 +340,58 @@ body {
       $i: index($listLogo, $currentLogo);
 
       &:nth-of-type(#{$i}) {
-
         &::before {
-          background: url('../img/logo_#{$currentLogo}.svg') no-repeat center center / cover;
+          background: url("../img/logo_#{$currentLogo}.svg")
+            no-repeat
+            center
+            center /
+            cover;
         }
       }
     }
 
     &__title {
       @include font-primary(22px, $color-4, 700);
-      text-transform: uppercase;     
+      text-transform: uppercase;
     }
 
     &__text {
-      @include font-primary(18px, $color-5, 400, 30px);
+      @extend %global_text;
       grid-column: 2;
     }
   }
 }
 
-
-
-
-
 .skills {
-  padding: 100px 0;
+  @extend %section_base;
 
   &-info {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    // grid-template-columns: repeat(auto-fit, minmax(270px, 560px));
+    grid-template-columns: repeat(auto-fit, minmax(44.545%, 1fr));
     grid-column-gap: 95px;
   }
 
   .heading {
+    display: flex;
+    flex-direction: column;
 
     &__title {
-      @include font-primary(30px, $color-4, 700);
-      text-transform: uppercase;
+      @extend %global_title;
     }
 
     &__text {
       margin-top: 45px;
-      @include font-primary(18px, $color-5, 400, 30px);
-    }
-  
-    &__contact {
-    
+      @extend %global_text;
     }
 
-    &__button {
+    &__contact {
       margin-top: 45px;
-      @extend %reset_button;
-      @include font-primary(18px, $color-2, 700);
+      align-self: flex-start;
+    }
+
+    &__link {
+      @extend %link_button;
       padding: 15px 35px;
-      border: 2px solid $color-2;
-      text-transform: uppercase;
     }
   }
 
@@ -411,17 +400,15 @@ body {
   }
 
   .progress-bars {
-
   }
 
   .progress-bar {
+    margin-top: 40px;
 
     &:first-of-type {
       margin-top: 0;
     }
 
-    margin-top: 40px;
-    
     &__title {
       @include font-primary(22px, $color-4, 700);
       text-transform: uppercase;
@@ -434,38 +421,33 @@ body {
     }
 
     &__text {
+      width: 10%;
+      min-width: 40px;
       @include font-primary(18px, $color-1, 700);
       text-align: right;
       padding: 8px 10px 4px 10px;
-
       background-color: $color-2;
-      width: 1%;
     }
   }
 }
 
-
-
-
-
 .resume {
   background-color: $color-8;
-  padding: 100px 0;
   position: relative;
-  
+  @extend %section_base;
+
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     left: 50%;
     bottom: -30px;
-    transform: translate(-50%, -50%); 
+    transform: translate(-50%, -50%);
     border-left: 30px solid transparent;
     border-right: 30px solid transparent;
     border-top: 20px solid $color-8;
   }
 
   &-info {
-
   }
 
   .heading {
@@ -474,46 +456,64 @@ body {
     align-items: center;
 
     &__title {
-      @include font-primary(30px, $color-4, 700);
-      text-transform: uppercase;
+      @extend %global_title;
     }
 
     &__text {
+      @extend %global_text;
       margin-top: 45px;
-      @include font-primary(18px, $color-5, 400, 30px);
       text-align: center;
     }
   }
 
-  .download {
+  .more {
     margin-top: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
 
-    &__button {
-      @extend %reset_button;
-      @include font-primary(18px, $color-2, 700);
-      padding: 15px 20px;
-      border: 2px solid $color-2;
-      text-transform: uppercase;
+    @include for-tablet-landscape-up {
+      flex-direction: column;
+    }
+
+    &__link {
+      @extend %link_button;
+
+      &_creative {
+        padding: 17px 20px;
+        border: 2px solid transparent;
+
+        &:hover,
+        &:focus {
+          @include font-primary(18px, $color-2, 700);
+        }
+      }
+
+      @include for-tablet-landscape-up {
+        margin-top: 25px;
+
+        &:first-child {
+          margin-top: 0;
+        }
+      }
     }
   }
 }
 
-
-
 .brief {
-  padding: 100px 0;
+  @extend %section_base;
 
   &-info {
-
   }
 
   .sections {
-   
   }
 
   .section {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(45.692%, 1fr));
     grid-column-gap: 75px;
     padding: 100px 0 0 0;
 
@@ -521,18 +521,24 @@ body {
       padding: 0 0 100px 0;
       border-bottom: 1px solid $color-5;
     }
+
+    @include for-tablet-landscape-up {
+      padding: 50px 0 0 0;
+
+      &:first-of-type {
+        padding: 0 0 50px 0;
+      }
+    }
   }
 
   .heading {
-
     &__title {
-      @include font-primary(30px, $color-4, 700);
-      text-transform: uppercase;
+      @extend %global_title;
     }
 
     &__text {
       margin-top: 45px;
-      @include font-primary(18px, $color-5, 400, 30px);
+      @extend %global_text;
     }
   }
 
@@ -541,7 +547,6 @@ body {
   }
 
   .articles {
-
   }
 
   .article {
@@ -576,39 +581,29 @@ body {
     }
 
     &__text {
-      @include font-primary(18px, $color-5, 400, 30px);    
+      @include font-primary(18px, $color-5, 400, 30px);
     }
   }
 }
 
-
-
 .quotes {
   background-color: $color-8;
-  padding: 100px 0 70px 0; 
+  padding: 100px 0 70px 0;
 
+  @include for-tablet-landscape-up {
+    padding: 50px 0 50px 0;
+  }
 
   &-info {
-   
-    display: flex;
-    // // justify-content: center;
-    flex-direction: column;
-    align-items: center;
   }
 
   .heading {
-
   }
 
   .content {
-  //  max-width: 1060px;
-    width: 1060/1200 * 100%;
-
-
   }
 
   .testimonials {
-
   }
 
   .testimonial {
@@ -616,10 +611,13 @@ body {
     flex-direction: column;
     align-items: center;
 
-
     &__text {
-      @include font-primary(24px, $color-5, 400, 36px, italic);
+      @include font-primary(21px, $color-5, 400, 30px, italic);
       text-align: center;
+
+      @include for-tablet-portrait-up {
+        @include font-primary(18px, $color-5, 400, 30px, italic);
+      }
     }
 
     &__author {
@@ -627,11 +625,16 @@ body {
     }
 
     &__link {
-      @include font-primary(18px, $color-4, 700);
+      text-decoration: none;
       text-transform: uppercase;
+      @include font-primary(18px, $color-4, 700);
+      transition: color 0.5s ease-in-out;
+
+      &:hover {
+        @include font-primary(18px, $color-2, 700);
+      }
     }
   }
-
 
   .slick-dots {
     // margin-top: 50px;
@@ -639,11 +642,9 @@ body {
     bottom: -60px;
 
     li.slick-active {
-
       button {
-
         &::before {
-          content: '';
+          content: "";
           background-color: $color-2;
         }
       }
@@ -653,9 +654,8 @@ body {
       margin: 0;
 
       button {
-
         &::before {
-          content: '';
+          content: "";
           width: 10px;
           height: 10px;
           border-radius: 50%;
@@ -667,31 +667,14 @@ body {
         }
       }
     }
-
   }
-
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .portfolio {
-  padding: 100px 0;
   background-color: $color-9;
+  @extend %section_base;
 
   &-info {
-
   }
 
   .heading {
@@ -701,14 +684,13 @@ body {
     justify-content: center;
 
     &__title {
-      @include font-primary(30px, $color-1, 700);
-      text-transform: uppercase;
+      @extend %global_title;
     }
 
     &__text {
       max-width: 1020px;
       margin-top: 45px;
-      @include font-primary(18px, $color-5, 400, 30px);
+      @extend %global_text;
       text-align: center;
     }
   }
@@ -723,16 +705,17 @@ body {
 
   .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(270px, 270px));
+    grid-template-columns: repeat(auto-fit, minmax(270px, 370px));
+    // grid-template-columns: repeat(2,  1fr);
     grid-column-gap: 40px;
     grid-row-gap: 40px;
+    justify-content: center;
   }
 
   .card {
     position: relative;
     // width: 25%;
     // padding: 10px;
-
 
     // &::before {
     //   content: '';
@@ -746,7 +729,6 @@ body {
     // }
 
     &__head {
-
     }
 
     &__img {
@@ -778,7 +760,6 @@ body {
     }
 
     &__item {
-
     }
 
     &__link {
@@ -787,42 +768,40 @@ body {
       height: 50px;
 
       &_designer {
-        background: url('../img/icon_designer.svg') no-repeat center center / contain;
+        background: url("../img/icon_designer.svg") no-repeat center center /
+          contain;
       }
 
       &_psd {
-        background: url('../img/icon_psd.svg') no-repeat center center / contain;
+        background: url("../img/icon_psd.svg") no-repeat center center / contain;
       }
 
       &_view {
-        background: url('../img/icon_view.svg') no-repeat center center / contain;
+        background: url("../img/icon_view.svg") no-repeat center center /
+          contain;
       }
 
       &_web-design {
-        background: url('../img/icon_web-design.svg') no-repeat center center / contain;
+        background: url("../img/icon_web-design.svg") no-repeat center center /
+          contain;
       }
 
       &:hover {
-
       }
     }
-  
 
-    &:hover {
-
+    &:hover,
+    &:focus {
       .card__body {
         opacity: 1;
       }
     }
-
-   
-
   }
 
   .more {
     justify-self: center;
     align-self: center;
-    grid-column: 1 / 5;
+    grid-column: 1 / 4;
 
     &__button {
       @extend %reset_button;
@@ -834,42 +813,30 @@ body {
   }
 }
 
-
-
-
-
-
-
-
-
 .contact {
   background-color: $color-7;
-  padding: 100px 0;
+  @extend %section_base;
 
   &-info {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    // grid-template-columns: repeat(auto-fit, minmax(270px, 560px));
+    grid-template-columns: repeat(auto-fit, minmax(45.692%, 1fr));
     grid-column-gap: 75px;
   }
 
   .heading {
-
-
     &__title {
-      @include font-primary(30px, $color-1, 700);
-      text-transform: uppercase;
+      @extend %global_title;
     }
 
     &__text {
       margin-top: 45px;
-      @include font-primary(18px, $color-5, 400, 30px);
+      @extend %global_text;
     }
   }
 
   .list {
     margin-top: 45px;
-  
+
     &__item {
       display: flex;
       margin-top: 15px;
@@ -885,6 +852,7 @@ body {
     }
 
     &__link {
+      @extend %link_base;
       @include font-primary(18px, $color-5, 400);
 
       &:hover {
@@ -897,9 +865,20 @@ body {
     margin-top: 80px;
   }
 
-  .form {
+  .dummy {
+    display: none;
+    background-color: $color-5;
+    width: 100%;
+    height: 100%;
 
-    &__data {
+    &__text {
+      text-align: center;
+      @include font-primary(18px, $color-1, 700);
+    }
+  }
+
+  .form {
+    &__group {
       margin-top: 40px;
 
       &:first-of-type {
@@ -909,45 +888,37 @@ body {
 
     &__label {
       @include font-primary(18px, $color-1, 400);
+    }
 
-      &::after{
-        content: '*';
-        margin-left: 5px;
-        @include font-primary(18px, $color-5, 400);
-      }
+    &__forced {
+      @include font-primary(18px, $color-5, 400);
     }
 
     &__input {
-      margin-top: 20px;
-      width: 100%;
-      border: none;
-      padding: 17px 15px;
-      background-color: $color-6;
-      @include font-primary(18px, $color-1, 400);
+      margin-top: 10px;
+      @extend %form_element;
     }
 
     &__textarea {
-      margin-top: 20px;
-      width: 100%;
+      @extend %form_element;
+      margin-top: 10px;
       height: 280px;
-      border: none;
       padding: 15px;
-      background-color: $color-6;
-      @include font-primary(18px, $color-1, 400);
     }
 
     &__button {
-      border: none;
-      background-color: $color-9;
-      padding: 19px 37px 15px 37px;
+      @extend %reset_button;
       @include font-primary(18px, $color-1, 700);
       text-transform: uppercase;
+      background-color: $color-9;
+      padding: 19px 37px 15px 37px;
+
+      @include for-tablet-portrait-up {
+        @include font-primary(16px, $color-1, 700);
+      }
     }
   }
 }
-
-
-// https://stackoverflow.com/questions/50081665/how-to-set-particles-js-to-background
 
 .footer {
   background-color: $color-9;
@@ -961,10 +932,10 @@ body {
   }
 
   .heading {
-
     &__title {
       @include font-primary(14px, $color-6, 500);
       text-transform: uppercase;
+      text-align: center;
     }
   }
 
@@ -973,20 +944,21 @@ body {
   }
 
   .socials {
+    width: 280px;
     display: flex;
     justify-content: space-between;
-    width: 120px;
-    
+    align-items: center;
+
     &__link {
+      @extend %link_base;
       display: block;
       width: 35px;
       height: 35px;
-      padding: 10px;
+      padding: 8px;
       border-radius: 50%;
       background-color: $color-6;
-      transition: color .25s ease;
       color: $color-9;
-  
+
       &:hover {
         color: $color-1;
       }
@@ -997,1637 +969,3 @@ body {
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-.header { 
-  padding: 20px 0 285px 0;
-  background: url('../img/bg_header.png') no-repeat center center / cover fixed;
-  position: relative;
-  overflow: hidden;
-
-
-  @include for-tablet-portrait-up {
-    background: url('../img/bg_header.png') no-repeat center center / cover;
-  }
-
-  &::before {
-    content: '';
-    display: block;
-    width: 770px;
-    height: 200px;
-    background: url('../img/bg_cloud_12.png') no-repeat center top / cover;
-    position: absolute;
-    bottom: -50px;
-    animation: animatedTranslate 100s linear infinite alternate;
-  }
-
-  &::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 200px;
-    background: url('../img/bg_cloud_11.png') repeat-x center top / auto;
-    position: absolute;
-    bottom: -30px;
-    animation: animatedBackground 150s linear infinite alternate;
-  }
-
- 
-  @include for-tablet-portrait-up {
-    padding: 20px 0 200px 0;
-  }
-}
-
-.header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  @include for-tablet-portrait-up {
-    flex-direction: column;
-  }
-
-  .logo {
-
-    &__link {
-      @extend %outline-custom;
-      display: block;
-      width: 110px;
-      height: 90px;
-      background: url('../img/bg_logo.png') no-repeat center center / contain;
-    }
-  }
-
-  .call {
-    width: 100%;
-    max-width: 390px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-
-    @include for-tablet-portrait-up {
-      margin-top: 25px;
-    }
-  
-    &__link {
-      @extend %outline-custom;
-
-      &:hover {
-
-        .call__text {
-          color: $color-2;
-        }
-
-        .call__text_colored {
-          color: $color-1;
-        }
-      }
-    }
-  
-    &__text {
-      @include font-secondary(21px, $color-1, 600);
-      transition: 0.5s color;
-
-
-      @include for-tablet-portrait-up {
-        @include font-secondary(15px, $color-1, 600);
-      }
-  
-      &_colored {
-        @include font-secondary(21px, $color-2, 400);
-
-
-        @include for-tablet-portrait-up {
-          @include font-secondary(15px, $color-2, 400);
-        }
-      }
-    }
-  
-    &__button {
-      @extend %outline-custom;
-      @extend %reset_button;
-      @include font-secondary(16px, $color-1, 400);
-      border-radius: 23px;
-      border: 1px solid $color-28;
-      // padding: 11px 29px;
-      padding: 11px 30px 12px 30px;
-      background-color: transparent;
-  
-      &:hover {
-        background-color: $color-10;
-        border: 1px solid transparent;
-      }
-
-
-      @include for-tablet-portrait-up {
-        @include font-secondary(14px, $color-1, 400);
-        padding: 10px 15px;
-      }
-    }
-  }
-}
-
-.header-center {
-  margin-top: 100px;
-
-
-  @include for-tablet-portrait-up {
-    margin-top: 35px;
-  }
-
-  .caption {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-transform: uppercase;
-      
-    &__title {
-      text-align: center;
-
-      &_size-l {
-        margin-top: 15px;
-        @include font-primary(169px, $color-1, 700);
-
-
-        @include for-tablet-landscape-up {
-          @include font-primary(118px, $color-1, 700);
-        }
-
-        @include for-tablet-portrait-up {
-          @include font-primary(60px, $color-1, 700);
-        }
-      }
-  
-      &_size-m {
-        @include font-primary(38px, $color-1, 700);
-
-
-        @include for-tablet-portrait-up {
-          @include font-primary(19px, $color-1, 700);
-        }
-      }
-  
-      &_size-s {
-        margin-top: 20px;
-        @include font-primary(21px, $color-1, 400);
-        text-transform: none;
-
-
-        @include for-tablet-portrait-up {
-          @include font-primary(16px, $color-1, 400);
-        }
-      }
-    }
-  }
-  
-  .booking {
-    margin-top: 55px;
-  
-    &__button {
-      @extend %outline-custom;
-      @extend %reset_button;
-      @include font-secondary(19px, $color-1, 400);
-      background-color: $color-10;
-      border-radius: 30px;
-      // padding: 17px 43px;
-      padding: 15px 43px 18px 43px;
-      border: 1px solid transparent;
-  
-      &:hover {
-        border: 1px solid $color-28;
-        background-color: transparent;
-      }
-
-
-      @include for-tablet-portrait-up {
-        @include font-secondary(16px, $color-1, 400);
-      }
-    }
-  }
-}
-
-
-
-
-
-.main { }
-
-
- 
-
-
-.dates {
-  padding: 0 0 100px 0;
-  background: url('../img/bg_dates.png') no-repeat -14% 100% / auto;
-
-
-  @include for-tablet-portrait-up {
-    padding: 0 0 20px 0;
-  }
-  
-  .heading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-
-    &::before {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 130px;
-      background-color: $color-14;
-
-
-      @include for-tablet-portrait-up {
-        height: 65px;
-      }
-    }
-
-    &__title {
-      margin-top: 10px;
-      @include font-primary(40px, $color-8, 700); 
-
-
-      @include for-tablet-portrait-up {
-        @include font-primary(26px, $color-8, 700);
-      }
-  
-      &_size-s {
-        @include font-secondary(13px, $color-13, 400);
-        text-transform: uppercase;
-      }
-    }
-
-    &__links {
-      margin-top: 40px;
-      width: 300px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;  
-
-      @include for-tablet-portrait-up {
-        margin-top: 20px;
-        justify-content: space-around;
-      }
-    }
-
-    &__link {
-      @extend %outline-custom;
-      @include font-secondary(20px, $color-15, 600);
-      border-bottom: 2px dashed transparent;
-      padding-bottom: 2px; 
-
-
-      @include for-tablet-portrait-up {
-        @include font-secondary(18px, $color-15, 600);
-      }
-
-      &_active {
-        @include font-secondary(20px, $color-10, 600);
-        border-bottom: 2px dashed $color-10;
-        padding-bottom: 2px; 
-
-
-        @include for-tablet-portrait-up {
-          @include font-secondary(18px, $color-10, 600);
-        }
-      }
-
-      &:hover {
-        @include font-secondary(20px, $color-10, 600);
-        border-bottom: 2px dashed $color-10;
-      }
-    }
-  }
-
-  .content { }
-
-  .trips {
-    margin-top: 40px;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(270px, 1fr));
-    grid-template-rows: repeat(2, minmax(250px, 1fr));
-    grid-column-gap: 30px;
-    grid-row-gap: 30px;
-
-
-    @include for-desktop-up {
-      grid-template-columns: repeat(2, 270px);
-      grid-template-rows: repeat(4, minmax(250px, 1fr));
-      justify-content: center;
-    }
-
-    @include for-tablet-portrait-up {
-      grid-template-columns: repeat(1, 270px);
-      grid-template-rows: repeat(6, minmax(250px, 1fr));
-    }
-  }
-
-  .trip { 
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 30px;
-    border-radius: 10px;
-
-    &__content { }
-  
-    &:nth-of-type(1) {
-      grid-column: 1 / 3;
-      grid-row: 1 / 3;
-      background: url('../img/bg_trips_1.png') no-repeat center / cover;
-
-
-      @include for-tablet-portrait-up {
-        grid-column: 1;
-      }
-    }
-  
-    &:nth-of-type(2) {
-      grid-column: 3;
-      grid-row: 1 / 2;
-      background: url('../img/bg_trips_2.png') no-repeat center / cover;
-
-      @include for-desktop-up {
-        grid-column: 1;
-        grid-row: 3 / 4;
-      }
-
-      @include for-tablet-portrait-up {
-        grid-column: 1;
-        grid-row: 3 / 4;
-      }
-    }
-  
-    &:nth-of-type(3) {
-      grid-column: 3;
-      grid-row: 2 / 3;
-      background: url('../img/bg_trips_3.png') no-repeat center / cover;
-
-
-      @include for-desktop-up {
-        grid-column: 1;
-        grid-row: 4 / 5;
-      }
-
-      @include for-tablet-portrait-up {
-        grid-column: 1;
-        grid-row: 4 / 5;
-      }  
-    }
-  
-    &:nth-of-type(4) {
-      grid-column: 4;
-      grid-row: 1 / 3;
-      background: url('../img/bg_trips_4.png') no-repeat center / cover;
-
-
-      @include for-desktop-up {
-        grid-column: 2;
-        grid-row: 3 / 5;
-      }
-
-      @include for-tablet-portrait-up {
-        grid-column: 1;
-        grid-row: 5 / 7;
-      }
-    }
-  
-    &__title {
-      @include font-primary(19px, $color-1, 700, 24px);
-    }
-  
-    &__list {
-      margin-top: 10px;
-    }
-      
-    &__item {
-      display: grid;
-      grid-template-columns: 85px 1fr;
-      grid-template-rows: repeat(1, 1fr);
-    }
-  
-    &__text {
-      @include font-secondary(14px, $color-1, 400, 21px);
-    }  
-  }
-}
-
-
-
-.about {
-  padding: 100px 0 250px 0;
-  background: $gradient-1;
-  position: relative;
-
-
-  @include for-tablet-portrait-up {
-    padding: 100px 0 165px 0;
-  }
-  
-  &::before {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 200px;
-    background: url('../img/bg_cloud_11.png') repeat center bottom / auto;    
-    position: absolute;
-    top: -1px;
-    animation: animatedBackground 150s linear infinite alternate;
-    transform: rotate(180deg);
-  }
-  
-  &::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 200px;
-    background: url('../img/bg_cloud_11.png') repeat center top / auto;
-    position: absolute;
-    bottom: -30px;
-    animation: animatedBackground 150s linear infinite alternate;
-  }
-
-  .heading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-
-    position: relative;
-    z-index: 600;
-
-    &::before {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 130px;
-      background-color: $color-23;
-
-      @include for-tablet-portrait-up {
-        height: 65px;
-      }
-    }
-
-    &__title {
-      margin-top: 10px;
-      @include font-primary(40px, $color-1, 700);
-
-
-      @include for-tablet-portrait-up {
-        @include font-primary(26px, $color-1, 700);
-      }
-
-
-      &_size-s {
-        @include font-secondary(13px, $color-4, 400);
-        text-transform: uppercase;
-      }
-    }
-  }
-  
-  .content {
-    margin-top: 45px;
-    display: grid;
-    grid-template-columns: minmax(290px, 470px) 1fr;
-    grid-template-rows: repeat(1, 1fr);
-    grid-column-gap: 55px;
-    grid-row-gap: 30px;
-    justify-content: center;
-    align-items: center;
-
-
-    @include for-tablet-landscape-up {
-      margin-top: 30px;
-      grid-template-columns: minmax(280px, 470px);
-      grid-template-rows: 265px 1fr;
-    }
-  }
-
-  .videos {
-    position: relative;
-      
-    .cloud {
-      width: 150%;
-      padding-bottom: 100%;
-      background: url('../img/bg_cloud_10.png') no-repeat center center / cover;
-      position: absolute;
-      top: -40%;
-      left: -35%;
-
-
-      @include for-tablet-portrait-up {
-        width: 100%;
-        top: -25%;
-        left: 0%;
-      }
-    }
-  }
-
-  .video {
-    width: 100%;  
-    height: 265px;
-    background: url('../img/bg_service.png') no-repeat center center / cover;
-    position: relative;  
-    overflow: hidden;
-    box-shadow: 0 26px 49px $color-29;
-    border-radius: 10px;
-    grid-column: 1 / 2;
-    grid-row: 1 / 2 ;
-
-    &__button {
-      @extend %outline-custom;
-      @extend %reset_button;
-      @extend %button-play-video;
-    }
-
-    &__iframe {
-      @extend %iframe-video;
-    }
-  }
-
-  .description {
-
-    &__text {
-
-      &:first-of-type {
-        margin-top: 0;
-      }
-
-      margin-top: 15px;
-      @include font-secondary(17px, $color-7, 400, 26px);
-    }
-  }
-}
-
-
-
-
-
-.advantages {
-  position: relative;
-  background: url('../img/bg_advantage.png') no-repeat 110% 15% / auto;
-
-  .heading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-
-    &::before {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 130px;
-      background-color: $color-14;
-
-
-      @include for-tablet-portrait-up {
-        height: 65px;
-      }
-    }
-
-    &__title {
-      margin-top: 10px;
-      @include font-primary(40px, $color-8, 700);
-
-      
-      @include for-tablet-portrait-up {
-        @include font-primary(26px, $color-8, 700);
-      }
-
-
-      &_size-s {
-        @include font-secondary(13px, $color-13, 400);
-        text-transform: uppercase;
-      }
-    }
-  }
-
-  .content {
-    margin-top: 60px;
-
-
-    @include for-tablet-portrait-up {
-      margin-top: 30px;
-    }
-  }
-
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(270px, auto));
-    grid-column-gap: 30px;
-    grid-row-gap: 30px;
-    justify-items: center;
-  }
-
-  .card {   
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 270px;
-    padding: 55px 35px;
-    border-radius: 10px;
-    border: 2px solid $color-22;
-    text-align: center;
-    background-color: $color-1;
- 
-    &::before {
-      content: '';
-      display: block;
-      width: 65px;
-      height: 60px;
-      background: url('../img/svg/card_icon-1.svg') no-repeat center / contain;
-    }
-
-    @for $i from 2 through 8 {
-
-      &_icon-#{$i} {
-
-        &::before {
-          background: url('../img/svg/card_icon-#{$i}.svg') no-repeat center / contain;
-        }       
-      }
-    }
- 
-    &__text {
-      margin-top: 30px;
-      @include font-secondary(16px, $color-15, 600, 22px);
-    }
-  }
-}
-
-
-
-
-
-
-.reviews {
-  margin-top: 95px;
-  background: url('../img/bg_reviews.png') no-repeat center 55% / cover;
-  
-  .heading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-
-    &::before {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 130px;
-      background-color: $color-14;
-
-
-      @include for-tablet-portrait-up  {
-        height: 65px;
-      }
-    }
-
-    &__title {
-      margin-top: 10px;
-      @include font-primary(40px, $color-8, 700);
-
-      
-      @include for-tablet-portrait-up  {
-        @include font-primary(26px, $color-8, 700);
-      }
-
-
-      &_size-s {
-        @include font-secondary(13px, $color-13, 400);
-        text-transform: uppercase;
-      }
-    }
-  }
-
-  .content {
-    margin-top: 55px;
-
-
-    @include for-tablet-portrait-up {
-      margin-top: 30px;
-    }
-  }
-
-  .videos {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, minmax(210px, 1fr));
-    grid-column-gap: 30px;
-    grid-row-gap: 30px;
-
-
-    @include for-desktop-up {
-      grid-template-columns: repeat(2, minmax(210px, 370px));
-      grid-template-rows: repeat(3, minmax(210px, 1fr)) 50px;
-      justify-content: center;
-    }
-
-    @include for-tablet-portrait-up {
-      grid-template-columns: repeat(1, 1fr);
-      grid-template-rows: repeat(3, minmax(290px, 1fr)) 50px;
-    }
-  }
-
-  .video {
-    background: url('../img/bg_reviews_video-1.png') no-repeat center center / cover;
-    position: relative;
-    overflow: hidden;
-    border-radius: 10px;
-
-    &:nth-of-type(1) {
-      grid-column: 1 / 3;
-      grid-row: 1 / 3;   
-
-
-      @include for-tablet-portrait-up {
-        grid-column: 1;
-        grid-row: 1 / 2;  
-      }
-    }
-
-    &:nth-of-type(2) {
-      background: url('../img/bg_reviews_video-2.png') no-repeat center center / cover;
-
-          
-      @include for-desktop-up {
-        grid-column: 1;
-        grid-row: 3 / 4;  
-      }
-
-      @include for-tablet-portrait-up {
-        grid-column: 1;
-        grid-row: 2 / 3;  
-      }
-    }
-
-    &:nth-of-type(3) {
-      background: url('../img/bg_reviews_video-3.png') no-repeat center center / cover;
-
-
-      @include for-desktop-up {
-        grid-column: 2;
-        grid-row: 3 / 4;  
-      }
-
-      @include for-tablet-portrait-up {
-        grid-column: 1;
-        grid-row: 3 / 4;  
-      }
-    }
-
-    &__button {
-      @extend %reset_button;
-      @extend %button-play-video;
-      @extend %outline-custom;
-    }   
-
-    &__iframe {
-      @extend %iframe-video;
-    }
-  }
-
-  .show-more {
-    margin-top: 10px;
-    grid-column: 1 / 4;
-    justify-self: center;
-
-
-    @include for-desktop-up {
-      grid-column: 1 / 3;
-      grid-row: 4;  
-    }
-
-    @include for-tablet-portrait-up {
-      grid-column: 1;
-      grid-row: 4 / 5;  
-    }
-
-    &__link {
-      @extend %outline-custom;
-      @include font-secondary(20px, $color-10, 400);
-      border-bottom: 2px dashed $color-10;
-      
-      &:hover {
-        border-bottom: 2px dashed transparent;
-      }
-
-
-      @include for-tablet-portrait-up {
-        @include font-secondary(16px, $color-10, 400); 
-      }
-    }
-  }
-}
-
-
-
-
-
-.needs {
-  padding: 100px 0 180px 0;
-  background: url('../img/bg_needs.png') no-repeat 73% 70% / auto;
-
-
-  @include for-tablet-portrait-up {
-    padding: 70px 0 50px 0;
-  }
-  
-  .heading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    &::before {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 130px;
-      background-color: $color-26;
-
-
-      @include for-tablet-portrait-up {
-        height: 65px;
-      }
-    }
-
-    &__title {
-      margin-top: 10px;
-      @include font-primary(40px, $color-25, 700);
-      text-align: center;
-
-      
-      @include for-tablet-portrait-up {
-        @include font-primary(26px, $color-25, 700);
-      }
-    
-
-      &_size-s {
-        @include font-secondary(13px, $color-13, 400);
-        text-transform: uppercase;
-      } 
-    }
-  }
-
-  .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .article {
-    margin-top: 40px;
-
-    &__text {
-      @include font-secondary(20px, $color-24, 400);
-
-
-      @include for-tablet-portrait-up {
-        @include font-secondary(16px, $color-24, 400);
-        text-align: center;
-      }
-    } 
-  }
-
-  .form {
-    margin-top: 35px;
-    width: 100%;
-    max-width: 525px;
-
-    &__data {
-      position: relative;
-
-      &_email { }
-
-
-      @include for-tablet-portrait-up {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-
-    &__input {
-      @extend %outline-custom;
-      width: 62%;
-      border-radius: 32px 0 0 32px;
-      background-color: $color-1;
-      border: 1px solid $color-9;
-      // padding: 18px 60px 18px 35px;
-      padding: 18px 60px 20px 35px;
-
-      @include font-secondary(19px, $color-8, 400);
-
-      &::placeholder {
-        @include font-secondary(19px, $color-18, 300);
-
-
-        @include for-tablet-portrait-up {
-          @include font-secondary(16px, $color-18, 300);
-        }
-      }
-
-
-      @include for-tablet-portrait-up {
-        @include font-secondary(16px, $color-8, 400);
-        width: 100%;
-        border-radius: 32px;
-        padding: 18px 35px;
-      }
-    }
-
-    &__button {
-      @extend %outline-custom;
-      @extend %reset_button;
-      position: absolute;
-      top: 0;
-      right: 0;
-      // padding: 19px 35px;
-      padding: 18px 39px 20px 39px;
-      border-radius: 32px;
-      border: 1px solid transparent;
-      background-color: $color-10;
-      @include font-secondary(19px, $color-1, 400);
-
-      &:active {
-        position: absolute;
-        top: 1px;
-      }
-
-      &:hover {
-        @include font-secondary(19px, $color-10, 400);
-        background-color: $color-1;
-        border: 1px solid $color-9;
-      }
-
-
-      @include for-tablet-portrait-up {
-        margin-top: 15px;
-        width: 100%;
-        position: static;
-        padding: 15px 25px;
-        @include font-secondary(16px, $color-1, 400);
-        
-        &:active {
-          position: relative;
-          top: 1px;
-        }
-      }
-    }
-  }
-}
-
-
-
-
-
-.questions {
-  background: $gradient-1;  
-  padding: 50px 0 200px 0; 
-  position: relative;
-
-
-  @include for-tablet-portrait-up {
-    padding: 100px 0 200px 0; 
-  }
-
-  &::before {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 200px;
-    background: url('../img/bg_cloud_11.png') repeat center bottom/auto;
-    position: absolute;
-    top: -1px;
-    z-index: 500;
-    animation: animatedBackground 150s linear infinite alternate;
-    transform: rotate(180deg);
-  }
-
-  &::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 200px;
-    background: url('../img/bg_cloud_11.png') repeat center top/auto;
-    position: absolute;
-    bottom: -30px;
-    animation: animatedBackground 150s linear infinite alternate;
-  } 
-
-  .heading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-
-    &::before {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 130px;
-      background-color: $color-23;
-
-
-      @include for-tablet-portrait-up {
-        height: 65px;
-      }
-    }
-
-    &__title {
-      margin-top: 10px;
-      @include font-primary(40px, $color-1, 700);   
-
-      
-      @include for-tablet-portrait-up {
-        @include font-primary(26px, $color-1, 700);
-      }
-
-
-      &_size-s {
-        @include font-secondary(13px, $color-4, 400);
-        text-transform: uppercase;
-      }
-    }
-  }
-
-  .content {
-    margin-top: 70px;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(auto, 555px));
-    grid-template-rows: repeat(1, auto) 50px;
-    grid-column-gap: 45px;
-    grid-row-gap: 45px;
-    justify-content: center;
-
-
-    @include for-desktop-up {
-      grid-template-columns: repeat(1, minmax(auto, 555px));
-      grid-template-rows: repeat(2, auto) 50px;
-    }
-  }
-
-  .articles { }
-
-  .article {
-
-    &:first-of-type {
-      margin-top: 0;
-    }
-
-    margin-top: 45px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
- 
-    &__title {
-      cursor: pointer;
-      @include font-secondary(22px, $color-22, 400);
-      padding-bottom: 3px;
-      border-bottom: 1px solid $color-6;
-      transition: all 0.5s;
-
-      &_active {
-        @include font-secondary(22px, $color-1, 400);
-        border-bottom: 1px solid transparent;
-
-
-        @include for-tablet-portrait-up {
-          @include font-secondary(16px, $color-1, 400);
-        }
-      }
-
-
-      @include for-tablet-portrait-up {
-        @include font-secondary(16px, $color-22, 400, 18px);
-      }     
-    }
-
-    &__text {
-      display: none;
-      margin-top: 20px;
-      @include font-secondary(16px, $color-7, 400, 26px);
-      border-radius: 10px;
-      background-color: $color-5;
-      padding: 20px 30px;
-
-      &_active {
-        display: block;
-      }
-
-
-      @include for-tablet-portrait-up {
-        @include font-secondary(14px, $color-22, 400, 24px);
-      }     
-    }
-  }
-
-  .show-more {
-    grid-column: 1 / 3;
-    justify-self: center;
-
-
-    @include for-desktop-up {
-      grid-column: 1;
-    }
-
-    @include for-tablet-portrait-up {
-      grid-column: 1;
-    }
-
-    &__link {
-      @extend %outline-custom;
-      @include font-secondary(20px, $color-1, 400);
-      border-bottom: 2px dashed $color-1;
-
-      &:hover {
-        border-bottom: 2px dashed transparent;
-      }
-
-
-      @include for-tablet-portrait-up {
-        @include font-secondary(16px, $color-1, 400);
-      }
-    }
-  }
-}
-
-
-
-
-
-.consultation {
-  background: url('../img/bg_ask.png') no-repeat 20% 115% / auto;
-
-  .heading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    &::before {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 130px;
-      background-color: $color-14;
-
-      @include for-tablet-portrait-up  {
-        height: 65px;
-      }
-    }
-
-    &__title {
-      margin-top: 10px;
-      @include font-primary(40px, $color-8, 700);
-      text-align: center;
-
-
-      @include for-tablet-portrait-up  {
-        @include font-primary(26px, $color-8, 700);
-      }
-
-
-      &_size-s {
-        @include font-secondary(13px, $color-13, 400);
-        text-transform: uppercase;
-      }
-    }
-  }
-
-  .content {
-    display: flex;  
-    flex-direction: column;
-    align-items: flex-end;
-  }
-
-  .form {
-    margin-top: 50px;
-    width: 100%;
-    max-width: 840px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(1, 1fr);
-    grid-column-gap: 25px; 
-    grid-row-gap: 25px; 
-
-
-    @include for-tablet-portrait-up  {
-      grid-template-columns: repeat(1, 1fr);
-    }
-
-
-    &__text {
-      // max-width: 370px;
-      align-self: center;
-      @include font-secondary(14px, $color-16, 400, 18px);
-    }
-
-    &__link {
-      @extend %outline-custom;
-      @include font-secondary(14px, $color-3, 400);
-      border-bottom: 1px solid $color-3;
-
-      &:hover {
-        border-bottom: 1px solid transparent;
-      }
-    }
-
-    &__data {
-
-      &_name { }
-
-      &_phone { }
-
-      &_submit { }
-   
-      &_comment {
-        grid-column: 1 / 3;
-
-        @include for-tablet-portrait-up  {
-          grid-column: 1;
-        }
-      }
-    }
-
-    &__input {
-      @extend %outline-custom;
-      width: 100%;
-      border-radius: 32px;
-      background-color: $color-1;
-      border: 1px solid $color-9;
-      // padding: 18px 35px;
-      padding: 17px 35px 19px 35px;
-
-      @include font-secondary(19px, $color-8, 400);
-
-      &::placeholder {
-        @include font-secondary(19px, $color-18, 300);
-
-
-        @include for-tablet-portrait-up {
-          @include font-secondary(16px, $color-18, 300);
-        }
-      }
-
-
-      @include for-tablet-portrait-up {
-        @include font-secondary(16px, $color-8, 400);
-      }
-    }
-
-    &__textarea {
-      @extend %outline-custom;
-      width: 100%;
-      height: 140px;
-      border-radius: 32px;
-      background-color: $color-1;
-      border: 1px solid $color-9;
-      padding: 25px 35px;
-
-      @include font-secondary(19px, $color-8, 400);
-
-      &::placeholder {
-        @include font-secondary(19px, $color-18, 300);
-
-
-        @include for-tablet-portrait-up {
-          @include font-secondary(16px, $color-18, 300);
-        }
-      }
-
-
-      @include for-tablet-portrait-up {
-        @include font-secondary(16px, $color-8, 400);
-      }
-    }
-
-    &__button {
-      @extend %outline-custom;
-      @extend %reset_button; 
-      width: 100%;
-      // padding: 19px 35px;
-      padding: 19px 35px 19px 35px;
-      border-radius: 32px;
-      border: 1px solid transparent;
-      background-color: $color-10;
-      @include font-secondary(19px, $color-1, 400);
-
-      &:hover {
-        @include font-secondary(19px, $color-10, 400);
-        background-color: $color-1;
-        border: 1px solid $color-9;
-      }
-
-
-      @include for-tablet-portrait-up {
-        @include font-secondary(16px, $color-1, 400);
-      }
-    }
-  }
-}
-
-
-
-
-
-.contacts {
-  // margin-top: 90px;
-  overflow: hidden;
-  position: relative;
-  top: 90px;
- 
-  .heading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    &::before {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 130px;
-      background-color: $color-14;
-
-      @include for-tablet-portrait-up {
-        height: 65px;
-      }
-    }
-
-    &__title {
-      margin-top: 10px;
-      @include font-primary(40px, $color-8, 700);
-      text-align: center;
-
-      
-      @include for-tablet-portrait-up {
-        @include font-primary(26px, $color-8, 700);
-      }
-
-
-      &_size-s {
-        @include font-secondary(13px, $color-13, 400);
-        text-transform: uppercase;
-      }
-    }
-  }
-
-  .content {
-    margin-top: 60px;
-    display: flex;
-    justify-content: space-between;
-
-
-    @include for-desktop-up {
-      flex-direction: column;
-      align-items: center;
-    }
-
-    @include for-tablet-portrait-up {
-      flex-direction: column;
-    }
-  }
-
-  .addresses {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 110px);
-    grid-column-gap: 35px;
-
-
-    @include for-tablet-portrait-up {
-      grid-template-columns: repeat(auto-fit, minmax(175px, auto));
-      grid-template-rows: repeat(2, minmax(60px, auto));
-      grid-row-gap: 25px;
-      justify-items: center;
-    }
-  }
-
-  .address {
- 
-    &__title {
-      @include font-secondary(20px, $color-8, 600);
-    }
-
-    &__text {
-
-      &:first-of-type {
-        margin-top: 15px;
-      }
-
-      @include font-secondary(17px, $color-18, 400, 24px);
-    }
-  }
-
-  .numbers {
-    margin-top: 20px;
-
-    &__link {
-      @extend %outline-custom;
-      @include font-secondary(17px, $color-18, 400);
-    }
-  }
-
-  .socials {
-    margin-top: 20px;
-    width: 120px;
-    display: flex;
-    justify-content: space-between;    
-
-    &__link {
-      @extend %outline-custom;
-      display: block;
-      width: 17px;
-      height: 17px;
-      transition: color 0.5s ease;
-      color: $color-18;
-
-      &:hover {
-        color: $color-27;
-      }
-    }
-
-    &__svg {
-      fill: currentColor;
-    }
-  }
-
-  .map {
-    width: 100%;
-    max-width: 735px;
-    height: 285px;
-    // background: url('../img/map.png') no-repeat center center / cover;
-    overflow: hidden;
-    border-radius: 10px;
-
-
-    @include for-tablet-portrait-up {
-      margin-top: 45px;
-    }
-
-    &__iframe {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-  }
-}
-
-
-
-
-
-.footer {
-  // background: url('../img/bg_footer.png') no-repeat center center / cover;
-  // padding: 80px 0 105px 0;
-
-
-  background: url('../img/bg_footer.png') no-repeat center bottom / cover;
-  padding: 220px 0 110px 0;
- 
-  
-  @include for-tablet-portrait-up  {
-    padding: 150px 0 20px 0;
-  }
-
-  .content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-
-    @include for-tablet-portrait-up {
-      flex-direction: column;
-    }
-  }
-  
-  .logo {
- 
-    &__link {
-      @extend %outline-custom;
-      display: block;
-      width: 110px;
-      height: 90px;
-      background: url('../img/bg_logo.png') no-repeat center center / contain;
-    }
-
-
-    @include for-tablet-portrait-up {
-      margin-top: 25px;
-      order: 1;
-    }
-  }
-
-  .privacy-policy {
-    text-align: right;
-
-    &__links { }
-
-    &__link {
-      @extend %outline-custom;
-      @include font-secondary(16px, $color-2, 400);
-      border-bottom: 1px solid $color-2;
-
-      &:hover {
-        border-bottom: 1px solid transparent;
-      }
-
-
-      @include for-tablet-portrait-up  {
-        @include font-secondary(13px, $color-2, 400);
-      }
-    }
-
-    &__text {
-      margin-top: 5px;
-      @include font-secondary(16px, $color-2, 400);
-
-
-      @include for-tablet-portrait-up  {
-        @include font-secondary(13px, $color-2, 400);
-      }
-    }
-  }
-}
-
-*/
