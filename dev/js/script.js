@@ -213,11 +213,12 @@ $(document).ready(function() {
     var winH = $(window).height();
     var skillsT = $(".skills").offset().top;
 
-    // console.log("winT", winT);
-    // console.log("winH", winH);
-    // console.log("skillsT", skillsT);
+    console.log("winT", winT);
+    console.log("winH", winH);
+    console.log("winT + winH", winT + winH);
+    console.log("skillsT", skillsT);
 
-    if (winT + winH > skillsT) {
+    if (winT + winH - 250 > skillsT) {
       test();
     }
   });
