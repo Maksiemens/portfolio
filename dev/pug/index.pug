@@ -21,13 +21,13 @@ html(lang = 'ru')
 	body.body
 		div.page
 			header.header
-				div.header-info
-					div.caption
-						h1.caption__title Front End developer
-						div.more
-							a.more__link.hvr-bounce-to-bottom(href="#intro") Узнать больше
+				div.container
+					div.header-info
+						div.caption
+							h1.caption__title Front End developer
+							div.more
+								a.more__link.hvr-bounce-to-bottom(href="#intro") Узнать больше
 
-				div.scroll-down
 				div#particles-js
 
 			main#home.main
@@ -39,15 +39,13 @@ html(lang = 'ru')
 								a.logo__link(href="index.html")
 									span.logo__text Front
 									span.logo__text.logo__text_colored End
-
-							div.hamburger-menu.js-hamburgerMenu
-								button.hamburger.hamburger--spin.js-hamburger(type="button")
-									span.hamburger-box
-										span.hamburger-inner
-
 		
 							nav.nav.js-nav
-								ul.nav__list
+								div.hamburger-menu
+									button.hamburger.hamburger--spin.js-hamburgerButton(type="button")
+										span.hamburger-box
+											span.hamburger-inner
+								ul.nav__list.js-navList
 									li.nav__item
 										a.nav__link.js-navLink(href="#home") Главная
 									li.nav__item
@@ -142,19 +140,19 @@ html(lang = 'ru')
 							div.content
 								div.progress-bars
 									section.progress-bar
-										h5.progress-bar__title Html 5 / Css 3
+										h5.progress-bar__title Html 5 / Css 3 / Pug / Scss / Bootstrap 4
 										div.progress-bar__container
 											p.progress-bar__text.progress-bar__text_htm.js-progressBar 90%
 									section.progress-bar
-										h5.progress-bar__title Js (Es6) / jQuery
+										h5.progress-bar__title Js (Es6) / Angular / jQuery
 										div.progress-bar__container
 											p.progress-bar__text.progress-bar__text_js.js-progressBar 70%
 									section.progress-bar
-										h5.progress-bar__title svg
+										h5.progress-bar__title Svg
 										div.progress-bar__container
 											p.progress-bar__text.progress-bar__text_svg.js-progressBar 65%
 									section.progress-bar
-										h5.progress-bar__title Gulp / Npm / Node
+										h5.progress-bar__title Gulp / Npm / Node / Webpack / Git
 										div.progress-bar__container
 											p.progress-bar__text.progress-bar__text_cmd.js-progressBar 80%
 									section.progress-bar
@@ -254,7 +252,7 @@ html(lang = 'ru')
 											a.testimonial__link(href="https://maksiemens.github.io/site6/") «АФОН» 
 											| ."
 										div.testimonial__author
-											a.testimonial__link(href="https://vk.com/space56") Никита Ильязов
+											a.testimonial__link(href="https://vk.com/nidsgn") Никита Ильязов
 									div.testimonial
 										p.testimonial__text
 											| “Lorem ipsum dolor sit amet, ea doming epicuri iudicabit nam, te usu virtute
@@ -284,7 +282,7 @@ html(lang = 'ru')
 
 							div.content
 								div.cards
-									div.card
+									div.card(tabindex="0")
 										div.card__head
 											img.card__img(src="img/site1.png", alt="Site1 (convert PSD to HTML/CSS/JS)")
 										div.card__body
@@ -292,7 +290,7 @@ html(lang = 'ru')
 												li.card__item
 													a.card__link.card__link_view(href="https://maksiemens.github.io/site1")
 									
-									div.card
+									div.card(tabindex="0")
 										div.card__head
 											img.card__img(src="img/site2.png", alt="Site2 (convert PSD to HTML/CSS/JS)")
 										div.card__body
@@ -300,7 +298,7 @@ html(lang = 'ru')
 												li.card__item
 													a.card__link.card__link_view(href="https://maksiemens.github.io/site2")
 
-									div.card
+									div.card(tabindex="0")
 										div.card__head
 											img.card__img(src="img/site3.png", alt="Site3 (convert PSD to HTML/CSS/JS)")
 										div.card__body
@@ -308,7 +306,7 @@ html(lang = 'ru')
 												li.card__item
 													a.card__link.card__link_view(href="https://maksiemens.github.io/site3")
 
-									div.card
+									div.card(tabindex="0")
 										div.card__head
 											img.card__img(src="img/site4.png", alt="Site4 (convert PSD to HTML/CSS/JS)")
 										div.card__body
@@ -316,7 +314,7 @@ html(lang = 'ru')
 												li.card__item
 													a.card__link.card__link_view(href="https://maksiemens.github.io/site4")
 
-									div.card
+									div.card(tabindex="0")
 										div.card__head
 											img.card__img(src="img/site5.png", alt="Site5 (convert PSD to HTML/CSS/JS)")
 										div.card__body
@@ -324,7 +322,7 @@ html(lang = 'ru')
 												li.card__item
 													a.card__link.card__link_view(href="https://maksiemens.github.io/site5")
 
-									div.card
+									div.card(tabindex="0")
 										div.card__head
 											img.card__img(src="img/site6.png", alt="Site6 (convert PSD to HTML/CSS/JS)")
 										div.card__body
@@ -332,7 +330,7 @@ html(lang = 'ru')
 												li.card__item
 													a.card__link.card__link_view(href="https://maksiemens.github.io/site6")
 
-									div.card
+									div.card(tabindex="0")
 										div.card__head
 											img.card__img(src="img/site7.png", alt="Site7 (convert PSD to HTML/CSS/JS)")
 										div.card__body
@@ -340,7 +338,7 @@ html(lang = 'ru')
 												li.card__item
 													a.card__link.card__link_view(href="https://maksiemens.github.io/site7")
 
-									div.card
+									div.card(tabindex="0")
 										div.card__head
 											img.card__img(src="img/site8.png", alt="Site8 (convert PSD to HTML/CSS/JS)")
 										div.card__body
@@ -348,7 +346,7 @@ html(lang = 'ru')
 												li.card__item
 													a.card__link.card__link_view(href="https://maksiemens.github.io/site8")
 
-									div.card
+									div.card(tabindex="0")
 										div.card__head
 											img.card__img(src="img/site8.png", alt="Site8 (convert PSD to HTML/CSS/JS)")
 										div.card__body
@@ -374,25 +372,27 @@ html(lang = 'ru')
 								div.content
 									form.form.js-formContact(name="form-contact")
 										div.form__group
-											label.form__label(for="form-name") Имя
-											input#form-name.form__input(type="text" name="Name" required)
+											label.form__label Имя 
+												span.form__forced *
+												input.form__input.js-inputLogin(type="text" name="entry.1708188903")
 										div.form__group
-											label.form__label(for="form-email") Email
-											input#form-email.form__input(type="email" name="Email" required)
+											label.form__label Email 
+												span.form__forced *
+												input.form__input.js-inputEmail(type="email" name="entry.1238268366")
 										div.form__group
-											label.form__label(for="form-textarea") Комментарий или ссылка на макеты / задание
-											textarea#form-textarea.form__textarea(name="Text" required )
-										//- div.form__group
-										//- 	label.form__label(for="form-file") Файл для верстки
-										//- 	input#form-file.form__input(type="file" name="File")
+											label.form__label Комментарий или ссылка на макеты / задание 
+												span.form__forced *
+												textarea.form__textarea.js-textareaText(name="entry.1592158436")
 										div.form__group.form__group_submit
 											button.form__button(type="submit") Связаться со мной
+									div.dummy
+										p.dummy__text Форма отправлена
 
 			footer.footer
 				div.container
 					div.footer-info
 						div.heading
-							h6.heading__title Все авторские права защищены 2018 - Максим Кондратенко
+							h6.heading__title Все авторские права защищены 2019 - Максим Кондратенко
 						div.content
 							div.socials
 								a.socials__link(href="https://www.linkedin.com/in/maks-kondratenko-427490113/")
@@ -503,4 +503,5 @@ html(lang = 'ru')
 										c12.293,3.986,22.784,8.793,31.451,14.52c8.736,5.71,15.564,12.99,20.438,21.783c4.909,8.807,7.354,19.564,7.354,32.222
 										C322.509,279.968,318.263,293.676,309.801,305.81z`)
 
+		//- script(src="https://spikmi.com/Widget?Id=338")
 		script(src="js/script.js")

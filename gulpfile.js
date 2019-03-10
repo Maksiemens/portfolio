@@ -6,6 +6,7 @@ const plumber = require("gulp-plumber");
 const notify = require("gulp-notify");
 const browserSync = require("browser-sync");
 const reload = browserSync.reload;
+const size = require('gulp-size');
 
 //browserSync
 gulp.task("browserSync", () => {
@@ -39,6 +40,7 @@ gulp.task("html", () => {
       plumber({ errorHandler: notify.onError("Error: <%= error.message %>") })
     )
     .pipe(htmlmin({ collapseWhitespace: true, removeComments: true }))
+    .pipe(size())
     .pipe(gulp.dest("prod"));
 });
 
@@ -57,6 +59,7 @@ gulp.task("style", () => {
     .pipe(sass({ outputStyle: "compressed" }).on("error", sass.logError))
     .pipe(autoprefixer({ browsers: ["last 2 versions"], cascade: false }))
     .pipe(gutil.env.type === "build" ? gutil.noop() : sourcemaps.write())
+    .pipe(size())
     .pipe(gulp.dest("prod/css"))
     .pipe(reload({ stream: true }));
 });
@@ -64,15 +67,14 @@ gulp.task("style", () => {
 //js
 const concat = require("gulp-concat");
 const uglify = require("gulp-uglify");
+const obfuscator = require('gulp-javascript-obfuscator');
+// для сборки в продакшен gulp --type=build
 
 gulp.task("js", () => {
   gulp
     .src([
       "dev/libs/jquery/jquery-3.3.1.min.js",
-      "dev/libs/wow/wow.min.js",
-      "dev/libs/slick/slick.min.js",
-      "dev/libs/particles/particles.min.js",
-      "dev/libs/isotope/isotope.pkgd.min.js",
+      "dev/libs/**/*.js",
       "dev/js/*.js"
     ])
     .pipe(
@@ -82,6 +84,8 @@ gulp.task("js", () => {
     .pipe(uglify())
     .pipe(concat("script.js"))
     .pipe(gutil.env.type === "build" ? gutil.noop() : sourcemaps.write())
+    .pipe(gutil.env.type === "build" ? obfuscator({compact: true, sourceMap: false}) : gutil.noop())
+    .pipe(size())
     .pipe(gulp.dest("prod/js"))
     .pipe(reload({ stream: true }));
 });
@@ -118,7 +122,7 @@ gulp.task("image", () => {
         )
       )
     )
-
+    .pipe(size())
     .pipe(gulp.dest("prod/img/"));
 });
 

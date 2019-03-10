@@ -18,13 +18,14 @@
   <body class="body">
     <div class="page">
       <header class="header">
-        <div class="header-info">
-          <div class="caption">
-            <h1 class="caption__title">Front End developer</h1>
-            <div class="more"><a class="more__link hvr-bounce-to-bottom" href="#intro">Узнать больше</a></div>
+        <div class="container">
+          <div class="header-info">
+            <div class="caption">
+              <h1 class="caption__title">Front End developer</h1>
+              <div class="more"><a class="more__link hvr-bounce-to-bottom" href="#intro">Узнать больше</a></div>
+            </div>
           </div>
         </div>
-        <div class="scroll-down"></div>
         <div id="particles-js"></div>
       </header>
       <main class="main" id="home">
@@ -32,11 +33,11 @@
           <div class="container">
             <div class="intro-info">
               <div class="logo"><a class="logo__link" href="index.html"><span class="logo__text">Front</span><span class="logo__text logo__text_colored">End</span></a></div>
-              <div class="hamburger-menu js-hamburgerMenu">
-                <button class="hamburger hamburger--spin js-hamburger" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button>
-              </div>
               <nav class="nav js-nav">
-                <ul class="nav__list">
+                <div class="hamburger-menu">
+                  <button class="hamburger hamburger--spin js-hamburgerButton" type="button"><span class="hamburger-box"><span class="hamburger-inner"></span></span></button>
+                </div>
+                <ul class="nav__list js-navList">
                   <li class="nav__item"><a class="nav__link js-navLink" href="#home">Главная</a></li>
                   <li class="nav__item"><a class="nav__link js-navLink" href="#about">Обо мне</a></li>
                   <li class="nav__item"><a class="nav__link js-navLink" href="#skills">Навыки</a></li>
@@ -113,25 +114,25 @@
               <div class="content">
                 <div class="progress-bars">
                   <section class="progress-bar">
-                    <h5 class="progress-bar__title">Html 5 / Css 3</h5>
+                    <h5 class="progress-bar__title">Html 5 / Css 3 / Pug / Scss / Bootstrap 4</h5>
                     <div class="progress-bar__container">
                       <p class="progress-bar__text progress-bar__text_htm js-progressBar">90%</p>
                     </div>
                   </section>
                   <section class="progress-bar">
-                    <h5 class="progress-bar__title">Js (Es6) / jQuery</h5>
+                    <h5 class="progress-bar__title">Js (Es6) / Angular / jQuery</h5>
                     <div class="progress-bar__container">
                       <p class="progress-bar__text progress-bar__text_js js-progressBar">70%</p>
                     </div>
                   </section>
                   <section class="progress-bar">
-                    <h5 class="progress-bar__title">svg</h5>
+                    <h5 class="progress-bar__title">Svg</h5>
                     <div class="progress-bar__container">
                       <p class="progress-bar__text progress-bar__text_svg js-progressBar">65%</p>
                     </div>
                   </section>
                   <section class="progress-bar">
-                    <h5 class="progress-bar__title">Gulp / Npm / Node</h5>
+                    <h5 class="progress-bar__title">Gulp / Npm / Node / Webpack / Git</h5>
                     <div class="progress-bar__container">
                       <p class="progress-bar__text progress-bar__text_cmd js-progressBar">80%</p>
                     </div>
@@ -253,7 +254,7 @@
                       Советую к нему обращаться, как к качественному и терпеливому верстальщику.
                       Посмотреть свёрстанный <a class="testimonial__link" href="https://maksiemens.github.io/site6/">«АФОН» </a>."
                     </p>
-                    <div class="testimonial__author"><a class="testimonial__link" href="https://vk.com/space56">Никита Ильязов</a></div>
+                    <div class="testimonial__author"><a class="testimonial__link" href="https://vk.com/nidsgn">Никита Ильязов</a></div>
                   </div>
                   <div class="testimonial">
                     <p class="testimonial__text">
@@ -290,7 +291,7 @@
               </div>
               <div class="content">
                 <div class="cards">
-                  <div class="card">
+                  <div class="card" tabindex="0">
                     <div class="card__head"><img class="card__img" src="img/site1.png" alt="Site1 (convert PSD to HTML/CSS/JS)"></div>
                     <div class="card__body">
                       <ul class="card__list">
@@ -298,7 +299,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="card">
+                  <div class="card" tabindex="0">
                     <div class="card__head"><img class="card__img" src="img/site2.png" alt="Site2 (convert PSD to HTML/CSS/JS)"></div>
                     <div class="card__body">
                       <ul class="card__list">
@@ -306,7 +307,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="card">
+                  <div class="card" tabindex="0">
                     <div class="card__head"><img class="card__img" src="img/site3.png" alt="Site3 (convert PSD to HTML/CSS/JS)"></div>
                     <div class="card__body">
                       <ul class="card__list">
@@ -314,7 +315,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="card">
+                  <div class="card" tabindex="0">
                     <div class="card__head"><img class="card__img" src="img/site4.png" alt="Site4 (convert PSD to HTML/CSS/JS)"></div>
                     <div class="card__body">
                       <ul class="card__list">
@@ -322,7 +323,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="card">
+                  <div class="card" tabindex="0">
                     <div class="card__head"><img class="card__img" src="img/site5.png" alt="Site5 (convert PSD to HTML/CSS/JS)"></div>
                     <div class="card__body">
                       <ul class="card__list">
@@ -330,7 +331,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="card">
+                  <div class="card" tabindex="0">
                     <div class="card__head"><img class="card__img" src="img/site6.png" alt="Site6 (convert PSD to HTML/CSS/JS)"></div>
                     <div class="card__body">
                       <ul class="card__list">
@@ -338,7 +339,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="card">
+                  <div class="card" tabindex="0">
                     <div class="card__head"><img class="card__img" src="img/site7.png" alt="Site7 (convert PSD to HTML/CSS/JS)"></div>
                     <div class="card__body">
                       <ul class="card__list">
@@ -346,7 +347,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="card">
+                  <div class="card" tabindex="0">
                     <div class="card__head"><img class="card__img" src="img/site8.png" alt="Site8 (convert PSD to HTML/CSS/JS)"></div>
                     <div class="card__body">
                       <ul class="card__list">
@@ -354,7 +355,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="card">
+                  <div class="card" tabindex="0">
                     <div class="card__head"><img class="card__img" src="img/site8.png" alt="Site8 (convert PSD to HTML/CSS/JS)"></div>
                     <div class="card__body">
                       <ul class="card__list">
@@ -384,21 +385,27 @@
               <div class="content">
                 <form class="form js-formContact" name="form-contact">
                   <div class="form__group">
-                    <label class="form__label" for="form-name">Имя</label>
-                    <input class="form__input" id="form-name" type="text" name="Name" required>
+                    <label class="form__label">Имя <span class="form__forced">*</span>
+                      <input class="form__input js-inputLogin" type="text" name="entry.1708188903">
+                    </label>
                   </div>
                   <div class="form__group">
-                    <label class="form__label" for="form-email">Email</label>
-                    <input class="form__input" id="form-email" type="email" name="Email" required>
+                    <label class="form__label">Email <span class="form__forced">*</span>
+                      <input class="form__input js-inputEmail" type="email" name="entry.1238268366">
+                    </label>
                   </div>
                   <div class="form__group">
-                    <label class="form__label" for="form-textarea">Комментарий или ссылка на макеты / задание</label>
-                    <textarea class="form__textarea" id="form-textarea" name="Text" required></textarea>
+                    <label class="form__label">Комментарий или ссылка на макеты / задание <span class="form__forced">*</span>
+                      <textarea class="form__textarea js-textareaText" name="entry.1592158436"></textarea>
+                    </label>
                   </div>
                   <div class="form__group form__group_submit">
                     <button class="form__button" type="submit">Связаться со мной</button>
                   </div>
                 </form>
+                <div class="dummy">
+                  <p class="dummy__text">Форма отправлена</p>
+                </div>
               </div>
             </div>
           </div>
@@ -408,7 +415,7 @@
         <div class="container">
           <div class="footer-info">
             <div class="heading">
-              <h6 class="heading__title">Все авторские права защищены 2018 - Максим Кондратенко</h6>
+              <h6 class="heading__title">Все авторские права защищены 2019 - Максим Кондратенко</h6>
             </div>
             <div class="content">
               <div class="socials"><a class="socials__link" href="https://www.linkedin.com/in/maks-kondratenko-427490113/">
